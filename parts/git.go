@@ -10,6 +10,18 @@ import (
 	"github.com/iskorotkov/cc-statusline/style"
 )
 
+var gitRemoteGetURLOrigin = func() func(ctx context.Context) (string, error) {
+	var remote string
+	var err error
+	var once sync.Once
+	return func(ctx context.Context) (string, error) {
+		once.Do(func() {
+			remote, err = shell.String(ctx, "git", "ls-remote", "--get-url", "origin")
+		})
+		return remote, err
+	}
+}()
+
 var gitBranchShowCurrent = func() func(ctx context.Context) (string, error) {
 	var branch string
 	var err error
@@ -33,6 +45,17 @@ var gitStatusPorcelain = func() func(ctx context.Context) (string, error) {
 		return status, err
 	}
 }()
+
+func GitRemoteOrigin() Part {
+	return func(ctx context.Context, h CCHook) (string, error) {
+		remote, _ := gitRemoteGetURLOrigin(ctx)
+		if remote != "" {
+			remote = strings.TrimSuffix(remote, ".git")
+			return style.Underline(limit(remote, 60)), nil
+		}
+		return "", nil
+	}
+}
 
 func GitBranch() Part {
 	return func(ctx context.Context, h CCHook) (string, error) {

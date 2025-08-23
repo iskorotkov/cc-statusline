@@ -23,6 +23,7 @@ var r = parts.Rows(
 	),
 	parts.Row(
 		style.Dim("GIT "),
+		parts.GitRemoteOrigin(),
 		parts.GitBranch(),
 		parts.GitStatus(),
 	),
