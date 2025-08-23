@@ -36,7 +36,7 @@ type GHPR struct {
 	Number       int    `json:"number"`
 	URL          string `json:"url"`
 	Title        string `json:"title"`
-	Mergeable    bool   `json:"mergeable"`
+	Mergeable    string `json:"mergeable"`
 	Additions    int    `json:"additions"`
 	Deletions    int    `json:"deletions"`
 	ChangedFiles int    `json:"changedFiles"`
@@ -77,7 +77,7 @@ func GHPRStats() Part {
 		sb.WriteString(" ")
 		fmt.Fprintf(&sb, "~%dF", pr.ChangedFiles)
 		sb.WriteString(" ")
-		if pr.Mergeable {
+		if pr.Mergeable == "MERGEABLE" {
 			fmt.Fprint(&sb, style.RGB("M", 127, 255, 127))
 		} else {
 			fmt.Fprint(&sb, style.RGB("NM", 255, 127, 127))
