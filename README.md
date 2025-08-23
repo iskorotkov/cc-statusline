@@ -1,5 +1,7 @@
 # cc-statusline
 
+![Screenshot](docs/screenshot.png)
+
 [![CI](https://github.com/iskorotkov/cc-statusline/workflows/CI/badge.svg)](https://github.com/iskorotkov/cc-statusline/actions?query=workflow%3ACI)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/iskorotkov/cc-statusline)](https://go.dev/)
 [![Release](https://img.shields.io/github/release/iskorotkov/cc-statusline.svg)](https://github.com/iskorotkov/cc-statusline/releases/latest)
