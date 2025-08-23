@@ -1,6 +1,12 @@
 # cc-statusline
 
-![Screenshot](docs/screenshot.png)
+![Screenshot with GitHub issue link](docs/gh-issue.png)
+
+---
+
+![Screenshot with Jira link](docs/jira.png)
+
+---
 
 [![CI](https://github.com/iskorotkov/cc-statusline/workflows/CI/badge.svg)](https://github.com/iskorotkov/cc-statusline/actions?query=workflow%3ACI)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/iskorotkov/cc-statusline)](https://go.dev/)

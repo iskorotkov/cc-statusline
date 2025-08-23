@@ -39,7 +39,8 @@ var r = parts.Rows(
 	),
 	parts.Row(
 		style.Dim("TASK"),
-		parts.TaskURL(),
+		parts.GHIssueURL(),
+		parts.JiraURL(),
 	),
 )
 

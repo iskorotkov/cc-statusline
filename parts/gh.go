@@ -3,12 +3,15 @@ package parts
 import (
 	"context"
 	"fmt"
+	"regexp"
 	"strings"
 	"sync"
 
 	"github.com/iskorotkov/cc-statusline/shell"
 	"github.com/iskorotkov/cc-statusline/style"
 )
+
+var ghIssueCodeRegex = regexp.MustCompile(`\d+`)
 
 var ghPRViewJSON = func() func(ctx context.Context) (GHPR, error) {
 	var pr GHPR
@@ -91,4 +94,33 @@ func GHPRURL() Part {
 		}
 		return style.Underline(pr.URL), nil
 	}
+}
+
+func GHIssueURL() Part {
+	return func(ctx context.Context, h CCHook) (string, error) {
+		origin, _ := gitRemoteGetURLOrigin(ctx)
+		branch, _ := gitBranchShowCurrent(ctx)
+		pr, _ := ghPRViewJSON(ctx)
+		if origin == "" {
+			return "", nil
+		}
+		code, ok := extractGHIssueCode(branch, pr.HeadRefName, pr.Title)
+		if !ok {
+			return "", nil
+		}
+		return style.Underline(strings.TrimSuffix(origin, ".git") + "/issues/" + code), nil
+	}
+}
+
+func extractGHIssueCode(s ...string) (string, bool) {
+	for _, s := range s {
+		if jiraCodeRegex.MatchString(s) {
+			continue
+		}
+		match := ghIssueCodeRegex.FindString(s)
+		if match != "" {
+			return match, true
+		}
+	}
+	return "", false
 }
