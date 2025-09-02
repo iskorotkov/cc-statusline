@@ -7,7 +7,7 @@ import (
 
 const (
 	rowSeparator  = "\n"
-	partSeparator = " | "
+	partSeparator = " "
 )
 
 func Rows(rows ...Part) Part {
@@ -16,7 +16,12 @@ func Rows(rows ...Part) Part {
 			return "", nil
 		}
 		var sb strings.Builder
-		for _, r := range rows {
+		s, err := rows[0](ctx, h)
+		if err != nil {
+			return "", err
+		}
+		sb.WriteString(s)
+		for _, r := range rows[1:] {
 			s, err := printWithSeparator(ctx, h, r, rowSeparator)
 			if err != nil {
 				return "", err
