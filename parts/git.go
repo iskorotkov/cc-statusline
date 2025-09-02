@@ -3,6 +3,7 @@ package parts
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -46,6 +47,18 @@ var gitStatusPorcelain = func() func(ctx context.Context) (string, error) {
 	}
 }()
 
+var gitDiffNumstat = func() func(ctx context.Context) (string, error) {
+	var diff string
+	var err error
+	var once sync.Once
+	return func(ctx context.Context) (string, error) {
+		once.Do(func() {
+			diff, err = shell.String(ctx, "git", "diff", "HEAD", "--numstat")
+		})
+		return diff, err
+	}
+}()
+
 func GitRemoteOrigin() Part {
 	return func(ctx context.Context, h CCHook) (string, error) {
 		remote, _ := gitRemoteGetURLOrigin(ctx)
@@ -81,6 +94,42 @@ func GitStatus() Part {
 		fmt.Fprintf(&sb, "%s:%d", fileCount[0].k, fileCount[0].v)
 		for _, p := range fileCount[1:] {
 			fmt.Fprintf(&sb, " %s:%d", p.k, p.v)
+		}
+		return sb.String(), nil
+	}
+}
+
+func GitDiffStats() Part {
+	return func(ctx context.Context, h CCHook) (string, error) {
+		diff, _ := gitDiffNumstat(ctx)
+		if diff == "" {
+			return "", nil
+		}
+		var added, removed int
+		for line := range strings.Lines(diff) {
+			fields := strings.Fields(line)
+			if len(fields) < 2 {
+				continue
+			}
+			if a, err := strconv.Atoi(fields[0]); err == nil {
+				added += a
+			}
+			if r, err := strconv.Atoi(fields[1]); err == nil {
+				removed += r
+			}
+		}
+		if added == 0 && removed == 0 {
+			return "", nil
+		}
+		var sb strings.Builder
+		if added > 0 {
+			fmt.Fprintf(&sb, style.RGB("+%dL", 127, 255, 127), added)
+		}
+		if removed > 0 {
+			if added > 0 {
+				sb.WriteString(" ")
+			}
+			fmt.Fprintf(&sb, style.RGB("-%dL", 255, 127, 127), removed)
 		}
 		return sb.String(), nil
 	}

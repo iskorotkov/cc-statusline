@@ -26,6 +26,7 @@ var r = parts.Rows(
 		parts.GitRemoteOrigin(),
 		parts.GitBranch(),
 		parts.GitStatus(),
+		parts.GitDiffStats(),
 	),
 	parts.Row(
 		style.Dim("PR  "),
