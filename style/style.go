@@ -37,5 +37,5 @@ func apply(text string, codes ...int) string {
 		}
 		codeStr += fmt.Sprintf("%d", code)
 	}
-	return fmt.Sprintf("\x1b[%sm%s\x1b[0m", codeStr, text)
+	return fmt.Sprintf("\x1b[0m\x1b[%sm%s\x1b[0m", codeStr, text)
 }
