@@ -40,7 +40,7 @@ A customizable statusline tool for Claude Code that displays real-time session i
 ## Features
 
 - **Claude Code Session Info**: Display current model, version, output style, working directory, session stats (lines added/removed, duration, cost), and 200K+ context indicator
-- **Git Integration**: Show remote origin URL, current branch, and file change status
+- **Git Integration**: Show remote origin URL, current branch, file change status, and diff statistics (lines added/removed)
 - **GitHub PR Integration**: Display PR number, title, statistics, merge status, and URL
 - **Task Tracking**: Automatically extract and link to task/issue numbers from branch names and PR head ref names
 - **Styled Output**: Rich terminal formatting with colors, bold, italic, and underline styles
@@ -148,7 +148,7 @@ The statusline displays information in multiple rows:
 
 ```
 CC   v1.0.0 | Claude 3.5 Sonnet | detailed | src | +150L -75L 0.1m $1.25 | 200K+
-GIT  https://github.com/iskorotkov/cc-statusline | main | M:5 A:2 D:1
+GIT  https://github.com/iskorotkov/cc-statusline | main | M:5 A:2 D:1 | +25L -10L
 PR   #42 | Fix authentication bug | +200L -50L ~8F M
 PR   https://github.com/iskorotkov/cc-statusline/pull/42
 TASK https://github.com/iskorotkov/cc-statusline/issues/42
@@ -156,7 +156,7 @@ TASK https://github.com/iskorotkov/cc-statusline/issues/42
 
 Each row shows different information:
 - **CC**: Claude Code version, model, output style, current directory, session statistics, context size indicator
-- **GIT**: Remote origin URL (underlined), current branch (italic), and file status (M=modified, A=added, D=deleted, etc.)
+- **GIT**: Remote origin URL (underlined), current branch (italic), file status (M=modified, A=added, D=deleted, etc.), and diff stats (lines added/removed from HEAD)
 - **PR**: Pull request number, title, statistics (lines added/removed, files changed), mergeable status
 - **TASK**: Extracted task/issue URL based on branch name and PR head ref name patterns
 
