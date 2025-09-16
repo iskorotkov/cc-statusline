@@ -1,6 +1,7 @@
 package transcript_test
 
 import (
+	"os"
 	"testing"
 	"time"
 
@@ -8,6 +9,9 @@ import (
 )
 
 func TestDateUsage(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skipf("Tests depend on local configuration, skipping in CI")
+	}
 	transcripts, err := transcript.ParseTranscripts()
 	if err != nil {
 		t.Fatal(err)
@@ -33,6 +37,9 @@ func TestDateUsage(t *testing.T) {
 }
 
 func TestUsageByDate(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skipf("Tests depend on local configuration, skipping in CI")
+	}
 	transcripts, err := transcript.ParseTranscripts()
 	if err != nil {
 		t.Fatalf("ParseTranscripts() error: %v", err)

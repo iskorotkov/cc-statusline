@@ -1,6 +1,7 @@
 package pricing_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/iskorotkov/cc-statusline/pricing"
@@ -8,6 +9,9 @@ import (
 )
 
 func TestModelPricing(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skipf("Tests depend on local configuration, skipping in CI")
+	}
 	transcripts, err := transcript.ParseTranscripts()
 	if err != nil {
 		t.Fatalf("Failed to parse transcripts: %v", err)

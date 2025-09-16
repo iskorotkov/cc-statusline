@@ -1,12 +1,21 @@
 package transcript_test
 
 import (
+	"os"
 	"testing"
 
 	"github.com/iskorotkov/cc-statusline/transcript"
 )
 
+func TestMain(m *testing.M) {
+
+	os.Exit(m.Run())
+}
+
 func TestParseTranscripts(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skipf("Tests depend on local configuration, skipping in CI")
+	}
 	transcripts, err := transcript.ParseTranscripts()
 	if err != nil {
 		t.Fatalf("ParseTranscripts() error: %v", err)
