@@ -87,3 +87,9 @@ func CC200KContextBadge() Part {
 		return "", nil
 	}
 }
+
+func CCTranscriptPath() Part {
+	return func(ctx context.Context, h CCHook) (string, error) {
+		return style.Dim(h.TranscriptPath), nil
+	}
+}

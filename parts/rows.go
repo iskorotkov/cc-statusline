@@ -3,11 +3,13 @@ package parts
 import (
 	"context"
 	"strings"
+
+	"github.com/iskorotkov/cc-statusline/style"
 )
 
-const (
+var (
 	rowSeparator  = "\n"
-	partSeparator = " "
+	partSeparator = style.Dim(" / ")
 )
 
 func Rows(rows ...Part) Part {

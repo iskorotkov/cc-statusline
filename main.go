@@ -22,6 +22,13 @@ var r = parts.Rows(
 		parts.CC200KContextBadge(),
 	),
 	parts.Row(
+		style.Dim(style.RGB("API", 192, 192, 255)),
+		parts.CCSessionUsage(),
+		parts.CCHourUsage(),
+		parts.CCDayUsage(),
+		parts.CCWeekUsage(),
+	),
+	parts.Row(
 		style.Dim(style.RGB("GIT", 192, 192, 255)),
 		parts.GitRemoteOrigin(),
 		parts.GitBranch(),
