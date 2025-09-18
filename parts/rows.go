@@ -52,4 +52,3 @@ func Row(prefix string, row ...Part) Part {
 		return prefix + " " + strings.Join(results, partSeparator), nil
 	}
 }
-

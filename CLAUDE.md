@@ -32,6 +32,7 @@ The codebase follows a modular architecture:
 2. **Lazy Evaluation**: Git and GitHub data is fetched once and cached using sync.Once pattern
 3. **Error Tolerance**: Parts gracefully return empty strings on errors rather than failing
 4. **Hook Data Structure**: The `CCHook` struct in parts/cc.go defines all available Claude Code session data
+5. **Theme-Aware Colors**: The style package automatically detects terminal background (light/dark) and applies appropriate color schemes for accessibility compliance
 
 ## Development Commands
 
@@ -108,6 +109,11 @@ echo '{"session_id":"test","version":"1.0.0","model":{"display_name":"Claude"},"
 ## Environment Variables
 
 - `CC_TASK_SERVER`: Base URL for task tracking system (e.g., "https://jira.example.com/browse"). When set, extracts task IDs from branch names and generates clickable links.
+
+- `CC_THEME`: Controls color scheme for terminal background compatibility:
+  - `dark`: Light colors for dark terminal backgrounds (default)
+  - `light`: Dark colors for light terminal backgrounds
+  - `auto`: Auto-detect using `$COLORFGBG` environment variable
 
 ## CI/CD and Automation
 

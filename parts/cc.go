@@ -67,10 +67,10 @@ func CCStats() Part {
 	return func(ctx context.Context, h CCHook) (string, error) {
 		duration := time.Millisecond * time.Duration(h.Cost.TotalAPIDurationMS)
 		return fmt.Sprintf("%s %s %.1fm %s",
-			fmt.Sprintf(style.RGB("+%dL", 127, 255, 127), h.Cost.TotalLinesAdded),
-			fmt.Sprintf(style.RGB("-%dL", 255, 127, 127), h.Cost.TotalLinesRemoved),
+			style.Green(fmt.Sprintf("+%dL", h.Cost.TotalLinesAdded)),
+			style.Red(fmt.Sprintf("-%dL", h.Cost.TotalLinesRemoved)),
 			duration.Minutes(),
-			fmt.Sprintf(style.RGB("$%.1f", 127, 255, 127), h.Cost.TotalCostUSD)), nil
+			style.Green(fmt.Sprintf("$%.1f", h.Cost.TotalCostUSD))), nil
 	}
 }
 

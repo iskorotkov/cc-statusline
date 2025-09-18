@@ -122,10 +122,10 @@ func GitDiffStats() Part {
 		}
 		parts := make([]string, 0, 2)
 		if added > 0 {
-			parts = append(parts, fmt.Sprintf(style.RGB("+%dL", 127, 255, 127), added))
+			parts = append(parts, style.Green(fmt.Sprintf("+%dL", added)))
 		}
 		if removed > 0 {
-			parts = append(parts, fmt.Sprintf(style.RGB("-%dL", 255, 127, 127), removed))
+			parts = append(parts, style.Red(fmt.Sprintf("-%dL", removed)))
 		}
 		return strings.Join(parts, " "), nil
 	}

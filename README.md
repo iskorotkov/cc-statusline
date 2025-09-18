@@ -102,6 +102,25 @@ For Jira integration:
 
 - `CC_TASK_SERVER`: Base URL for your task tracking system (e.g., `https://jira.example.com/browse`). When set, the tool will extract task IDs from branch names and PR head ref names and generate clickable links.
 
+- `CC_THEME`: Controls the color scheme for better visibility on different terminal backgrounds:
+  - `dark` (default): Light colors optimized for dark terminal backgrounds
+  - `light`: Bright, vibrant dark colors optimized for light terminal backgrounds
+  - `auto`: Automatically detects terminal background using `$COLORFGBG` environment variable
+
+For users with light terminal backgrounds, explicitly set the theme for better contrast:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "CC_THEME=light cc-statusline",
+    "padding": 0
+  }
+}
+```
+
+The tool automatically detects most terminal themes, but you can override this behavior by setting `CC_THEME` to `light` or `dark` as needed.
+
 Example:
 ```bash
 export CC_TASK_SERVER="https://github.com/iskorotkov/cc-statusline/issues"
@@ -218,6 +237,22 @@ The tool expects JSON input matching the `CCHook` structure:
   "exceeds_200k_tokens": false
 }
 ```
+
+### Accessibility & Color Standards
+
+The statusline implements accessible color schemes that meet WCAG 2.1 contrast standards (4.5:1 minimum ratio):
+
+**Dark Theme Colors (for dark terminal backgrounds):**
+- Headers: RGB(192, 192, 255) - Light blue for section labels
+- Positive values: RGB(127, 255, 127) - Light green for additions, costs
+- Negative values: RGB(255, 127, 127) - Light red for deletions, errors
+
+**Light Theme Colors (for light terminal backgrounds):**
+- Headers: RGB(0, 64, 160) - Bright dark blue for section labels
+- Positive values: RGB(0, 128, 0) - Vibrant green for additions, costs
+- Negative values: RGB(180, 0, 0) - Saturated red for deletions, errors
+
+All color combinations provide sufficient contrast for users with visual impairments and various lighting conditions.
 
 > **For detailed development commands, testing patterns, and contribution guidelines, see [CLAUDE.md](CLAUDE.md)**
 

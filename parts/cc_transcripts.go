@@ -86,7 +86,7 @@ func formatUsage(title string, usage map[string]transcript.Usage) string {
 	return fmt.Sprintf("%s %s%s",
 		title,
 		formatTokens(combinedTokens),
-		fmt.Sprintf(style.RGB(" $%.1f", 127, 255, 127), combinedPrice))
+		fmt.Sprintf(style.Green(" $%.1f"), combinedPrice))
 }
 
 func formatTokens(tokens int) string {

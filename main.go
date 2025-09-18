@@ -13,7 +13,7 @@ import (
 
 var r = parts.Rows(
 	parts.Row(
-		style.Dim(style.RGB("CC", 192, 192, 255)),
+		style.Dim(style.Blue("CC")),
 		parts.CCVersion(),
 		parts.CCModel(),
 		parts.CCOutputStyle(),
@@ -22,31 +22,31 @@ var r = parts.Rows(
 		parts.CC200KContextBadge(),
 	),
 	parts.Row(
-		style.Dim(style.RGB("API", 192, 192, 255)),
+		style.Dim(style.Blue("API")),
 		parts.CCSessionUsage(),
 		parts.CCHourUsage(),
 		parts.CCDayUsage(),
 		parts.CCWeekUsage(),
 	),
 	parts.Row(
-		style.Dim(style.RGB("GIT", 192, 192, 255)),
+		style.Dim(style.Blue("GIT")),
 		parts.GitRemoteOrigin(),
 		parts.GitBranch(),
 		parts.GitStatus(),
 		parts.GitDiffStats(),
 	),
 	parts.Row(
-		style.Dim(style.RGB("PR", 192, 192, 255)),
+		style.Dim(style.Blue("PR")),
 		parts.GHPRNumber(),
 		parts.GHPRTitle(),
 		parts.GHPRStats(),
 	),
 	parts.Row(
-		style.Dim(style.RGB("PR", 192, 192, 255)),
+		style.Dim(style.Blue("PR")),
 		parts.GHPRURL(),
 	),
 	parts.Row(
-		style.Dim(style.RGB("TASK", 192, 192, 255)),
+		style.Dim(style.Blue("TASK")),
 		parts.GHIssueURL(),
 		parts.JiraURL(),
 	),
