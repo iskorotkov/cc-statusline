@@ -90,12 +90,11 @@ func GitStatus() Part {
 		if len(fileCount) == 0 {
 			return "", nil
 		}
-		var sb strings.Builder
-		fmt.Fprintf(&sb, "%s:%d", fileCount[0].k, fileCount[0].v)
-		for _, p := range fileCount[1:] {
-			fmt.Fprintf(&sb, " %s:%d", p.k, p.v)
+		parts := make([]string, len(fileCount))
+		for i, p := range fileCount {
+			parts[i] = fmt.Sprintf("%s:%d", p.k, p.v)
 		}
-		return sb.String(), nil
+		return strings.Join(parts, " "), nil
 	}
 }
 
@@ -121,16 +120,13 @@ func GitDiffStats() Part {
 		if added == 0 && removed == 0 {
 			return "", nil
 		}
-		var sb strings.Builder
+		parts := make([]string, 0, 2)
 		if added > 0 {
-			fmt.Fprintf(&sb, style.RGB("+%dL", 127, 255, 127), added)
+			parts = append(parts, fmt.Sprintf(style.RGB("+%dL", 127, 255, 127), added))
 		}
 		if removed > 0 {
-			if added > 0 {
-				sb.WriteString(" ")
-			}
-			fmt.Fprintf(&sb, style.RGB("-%dL", 255, 127, 127), removed)
+			parts = append(parts, fmt.Sprintf(style.RGB("-%dL", 255, 127, 127), removed))
 		}
-		return sb.String(), nil
+		return strings.Join(parts, " "), nil
 	}
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/iskorotkov/cc-statusline/style"
@@ -67,15 +66,11 @@ func CCDir() Part {
 func CCStats() Part {
 	return func(ctx context.Context, h CCHook) (string, error) {
 		duration := time.Millisecond * time.Duration(h.Cost.TotalAPIDurationMS)
-		var sb strings.Builder
-		fmt.Fprintf(&sb, style.RGB("+%dL", 127, 255, 127), h.Cost.TotalLinesAdded)
-		sb.WriteString(" ")
-		fmt.Fprintf(&sb, style.RGB("-%dL", 255, 127, 127), h.Cost.TotalLinesRemoved)
-		sb.WriteString(" ")
-		fmt.Fprintf(&sb, "%.1fm", duration.Minutes())
-		sb.WriteString(" ")
-		fmt.Fprintf(&sb, style.RGB("$%.1f", 127, 255, 127), h.Cost.TotalCostUSD)
-		return sb.String(), nil
+		return fmt.Sprintf("%s %s %.1fm %s",
+			fmt.Sprintf(style.RGB("+%dL", 127, 255, 127), h.Cost.TotalLinesAdded),
+			fmt.Sprintf(style.RGB("-%dL", 255, 127, 127), h.Cost.TotalLinesRemoved),
+			duration.Minutes(),
+			fmt.Sprintf(style.RGB("$%.1f", 127, 255, 127), h.Cost.TotalCostUSD)), nil
 	}
 }
 

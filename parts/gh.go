@@ -70,19 +70,15 @@ func GHPRStats() Part {
 		if pr == (GHPR{}) {
 			return "", nil
 		}
-		var sb strings.Builder
-		fmt.Fprintf(&sb, style.RGB("+%dL", 127, 255, 127), pr.Additions)
-		sb.WriteString(" ")
-		fmt.Fprintf(&sb, style.RGB("-%dL", 255, 127, 127), pr.Deletions)
-		sb.WriteString(" ")
-		fmt.Fprintf(&sb, "~%dF", pr.ChangedFiles)
-		sb.WriteString(" ")
+		mergeStatus := style.RGB("NM", 255, 127, 127)
 		if pr.Mergeable == "MERGEABLE" {
-			fmt.Fprint(&sb, style.RGB("M", 127, 255, 127))
-		} else {
-			fmt.Fprint(&sb, style.RGB("NM", 255, 127, 127))
+			mergeStatus = style.RGB("M", 127, 255, 127)
 		}
-		return sb.String(), nil
+		return fmt.Sprintf("%s %s ~%dF %s",
+			fmt.Sprintf(style.RGB("+%dL", 127, 255, 127), pr.Additions),
+			fmt.Sprintf(style.RGB("-%dL", 255, 127, 127), pr.Deletions),
+			pr.ChangedFiles,
+			mergeStatus), nil
 	}
 }
 

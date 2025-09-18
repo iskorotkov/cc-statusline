@@ -3,7 +3,6 @@ package parts
 import (
 	"context"
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 
@@ -84,12 +83,10 @@ func formatUsage(title string, usage map[string]transcript.Usage) string {
 			combinedPrice += totalPrice(usage, price)
 		}
 	}
-	var sb strings.Builder
-	sb.WriteString(title)
-	sb.WriteString(" ")
-	sb.WriteString(formatTokens(combinedTokens))
-	fmt.Fprintf(&sb, style.RGB(" $%.1f", 127, 255, 127), combinedPrice)
-	return sb.String()
+	return fmt.Sprintf("%s %s%s",
+		title,
+		formatTokens(combinedTokens),
+		fmt.Sprintf(style.RGB(" $%.1f", 127, 255, 127), combinedPrice))
 }
 
 func formatTokens(tokens int) string {

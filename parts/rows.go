@@ -17,20 +17,17 @@ func Rows(rows ...Part) Part {
 		if len(rows) == 0 {
 			return "", nil
 		}
-		var sb strings.Builder
-		s, err := rows[0](ctx, h)
-		if err != nil {
-			return "", err
-		}
-		sb.WriteString(s)
-		for _, r := range rows[1:] {
-			s, err := printWithSeparator(ctx, h, r, rowSeparator)
+		results := make([]string, 0, len(rows))
+		for _, r := range rows {
+			s, err := r(ctx, h)
 			if err != nil {
 				return "", err
 			}
-			sb.WriteString(s)
+			if s != "" {
+				results = append(results, s)
+			}
 		}
-		return sb.String(), nil
+		return strings.Join(results, rowSeparator), nil
 	}
 }
 
@@ -39,29 +36,20 @@ func Row(prefix string, row ...Part) Part {
 		if len(row) == 0 {
 			return "", nil
 		}
-		var sb strings.Builder
-		sb.WriteString(prefix)
+		results := make([]string, 0, len(row))
 		for _, c := range row {
-			s, err := printWithSeparator(ctx, h, c, partSeparator)
+			s, err := c(ctx, h)
 			if err != nil {
 				return "", err
 			}
-			sb.WriteString(s)
+			if s != "" {
+				results = append(results, s)
+			}
 		}
-		if sb.Len() <= len(prefix) {
+		if len(results) == 0 {
 			return "", nil
 		}
-		return sb.String(), nil
+		return prefix + " " + strings.Join(results, partSeparator), nil
 	}
 }
 
-func printWithSeparator(ctx context.Context, h CCHook, p Part, separator string) (string, error) {
-	s, err := p(ctx, h)
-	if err != nil {
-		return "", err
-	}
-	if s == "" {
-		return "", nil
-	}
-	return separator + s, nil
-}
