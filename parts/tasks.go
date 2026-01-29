@@ -8,7 +8,7 @@ import (
 	"github.com/iskorotkov/cc-statusline/style"
 )
 
-var taskRegex = regexp.MustCompile(`(\w+\-?|#)?\d+`)
+var taskRegex = regexp.MustCompile(`(\w+\-?)?\d+`)
 
 func TaskURL() Part {
 	return func(ctx context.Context, h CCHook) (string, error) {
@@ -18,7 +18,7 @@ func TaskURL() Part {
 		if taskServer == "" {
 			return "", nil
 		}
-		taskCode, ok := extractTaskCode(branch, pr.HeadRefName)
+		taskCode, ok := extractTaskCode(branch, pr.HeadRefName, pr.Title)
 		if !ok {
 			return "", nil
 		}
